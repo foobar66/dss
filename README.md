@@ -51,13 +51,10 @@ Examples:
 
 The script will show you output of the services which get disabled, for example for the Feedly case:
 
-Component {com.devhd.feedly/com.facebook.internal.FacebookInitProvider} new state: disabled
-  
-Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsJobService} new state: disabled
-  
-Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsReceiver} new state: disabled
-  
-Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsService} new state: disabled
+> Component {com.devhd.feedly/com.facebook.internal.FacebookInitProvider} new state: disabled
+> Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsJobService} new state: disabled
+> Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsReceiver} new state: disabled
+> Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsService} new state: disabled
 
 Occasionally it can happen that after disabling Analytics/Firebase/etc, the app no longer works. 
 Then just "enable" again. Apps should - in principle - be resilient but some are not coded properly. 
