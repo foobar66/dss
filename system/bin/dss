@@ -13,17 +13,17 @@ if [ ! -e /data/.dss.hasran ]; then
     exit 0
 fi
 
-if [[  $# -ne 2 && $# -ne 3 ]]; then 
+if [  $# -ne 2 ] && [ $# -ne 3 ]; then 
 		display_usage "needs 2 or 3 arguments"
 		exit 1
 fi
 
-if [[ "$1" != "enable" && "$1" != "disable" ]]; then
+if [ "$1" != "enable" ] && [ "$1" != "disable" ]; then
     display_usage "first argument must be 'enable' or 'disable'"
     exit 1
 fi
 
-if [[ "$2" != "user" && "$2" != "system" ]]; then
+if [ "$2" != "user" ] && [ "$2" != "system" ]; then
     display_usage "second argument must be 'user' or 'system'"
     exit 1
 fi
@@ -61,20 +61,33 @@ else
     fi
 fi
 
-CNT=0
+DCNT=0
+ECNT=0
 ERR=0
 
 dodis () {
     pm "$1" "$2" 2>/dev/null
     if [ $? -eq 0 ]; then
-        CNT=$(( CNT + 1 ))
+        if [ "$1" = "enable" ]; then
+            ECNT=$(( ECNT + 1 ))
+        else
+            DCNT=$(( DCNT + 1 ))
+        fi
     else
         ERR=$(( ERR + 1))
     fi
 }
 
+if [ "$3" == "com.google.android.apps.messaging" ]; then
+    # disable MMS and RCS
+    dodis $CMD com.google.android.apps.messaging/com.google.android.apps.messaging.rcsprovisioning.RcsProvisioningBroadcastReceiver
+    dodis $CMD com.google.android.apps.messaging/android.support.v7.mms.MmsService
+    dodis $CMD com.google.android.apps.messaging/com.google.android.apps.messaging.rcsmigration.RcsMigrationService
+fi
+
 if [ $# -eq 2 ]; then
-    # specific disable
+    # specific disables for various packages
+
     if echo $PLIST | /system/bin/grep --quiet "com.dvtonder.chronus"; then
         dodis $CMD "com.dvtonder.chronus/com.dvtonder.chronus.daydream.ChronusDaydreamService"
         dodis $CMD "com.dvtonder.chronus/com.dvtonder.chronus.news.NewsFeedViewsService"
@@ -118,6 +131,8 @@ for i in $PLIST; do
     dodis $CMD "$i/com.google.android.gms.ads.measurement.GmpConversionTrackingBrokerService"
     dodis $CMD "$i/com.google.android.gms.ads.AdRequestBrokerService"
     dodis $CMD "$i/com.google.android.gms.ads.cache.CacheBrokerService"
+    dodis $CMD "$i/com.google.android.gms.ads.identifier.service.AdIdProviderService"
+    dodis $CMD "$i/com.google.android.gms.ads.identifier.service.AdvertisingIdService"
     dodis $CMD "$i/com.google.android.gms.ads.settings.AdsSettingsActivity"
     dodis $CMD "$i/com.google.android.gms.adsidentity.settings.AdsIdentitySettingsActivity"
     dodis $CMD "$i/com.google.android.gms.adsidentity.settings.AdsIdentityPersonalizationActivity"
@@ -134,8 +149,12 @@ for i in $PLIST; do
     dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementJobService"
     dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementReceiver"
     dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementService"
+    dodis $CMD "$i/com.google.firebase.auth.api.gms.service.FirebaseAuthService"
+    dodis $CMD "$i/com.google.firebase.iid.FirebaseInstanceIdService"
     dodis $CMD "$i/com.google.firebase.perf.provider.FirebasePerfProvider"
     dodis $CMD "$i/com.google.firebase.provider.FirebasePerfProvider"
+    dodis $CMD "$i/com.google.firebase.messaging.FirebaseMessagingService"
+    dodis $CMD "$i/com.google.firebase.messaging.FirebaseMessagingListenerService"
 done
 
 # I commented out parts of this complete section
@@ -354,4 +373,7 @@ done
 #     #     dodis $CMD "com.google.android.gms/com.google.firebase.components.ComponentDiscoveryService"
 # fi
 
-echo "*** $CNT services/activities processed, $ERR errors (probably services not present, don't worry about this!)"
+pm enable "com.devhd.feedly/com.facebook.internal.FacebookInitProvider" > /dev/null
+pm enable "com.strava/com.facebook.internal.FacebookInitProvider" > /dev/null
+
+echo "*** $DCNT disabled, $ECNT enabled, $ERR errors (probably services not present)"
