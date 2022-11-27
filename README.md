@@ -25,11 +25,11 @@ After installation:
 The script must be run manually using the command line. First, open a shell using adb:
 
 > adb shell
-$ su
+> su
 
 The script has the following syntax:
 
-dss {disable|enable} {user|system} <package-name>
+> dss {disable|enable} {user|system} <package-name>
 
 You must provide 2 or 3 arguments to the script:
 a) first argument is "disable" or "enable" (by default Analytics/Firebase/etc services are enabled)
@@ -39,11 +39,11 @@ c) the third argument is optional and - if present - contains the name of a spec
 Examples:
 
 1) disable analytics/firebase/etc for ALL user apps
-dss disable user
+> dss disable user
 2) enable analytics/firebase/etc for ALL system apps (this is the default)
-dss enable system
+> dss enable system
 3) disable analytics/firebase/etc for Feedly
-dss disable user com.devhd.feedly
+> dss disable user com.devhd.feedly
 
 The script will show you output of the services which get disabled, for example for the Feedly case:
 
@@ -60,11 +60,11 @@ When you run this on Feedly for example, you will find that it crashes afterward
 (reason is that the script disabled com.devhd.feedly/com.facebook.internal.FacebookInitProvider). 
 You can re-enable that service individually using:
 
-pm enable com.devhd.feedly/com.facebook.internal.FacebookInitProvider
+> pm enable com.devhd.feedly/com.facebook.internal.FacebookInitProvider
 
 or just do:
 
-dss enable user com.devhd.feedly
+> dss enable user com.devhd.feedly
 (that will re-enable all the services previously disabled)
 
 You can also disable stuff for system apps, e.g. com.android.contacts (Contacts), com.android.vending (Play store app), etc ...
@@ -72,7 +72,7 @@ However, one BIG WARNING. If you disable this for system apps, make sure to re-r
 'enable system' argument BEFORE running a Play-systemupdate otherwise that may bootloop. 
 So, to be on the safe side, if you have used the script to disable services in system APKs, then run:
 
-dss enable system
+> dss enable system
 
 before doing the Play-systemupdate.
 
