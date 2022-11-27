@@ -25,6 +25,7 @@ After installation:
 The script must be run manually using the command line. First, open a shell using adb:
 
 > adb shell
+then
 > su
 
 The script has the following syntax:
