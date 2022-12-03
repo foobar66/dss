@@ -25,6 +25,9 @@ After installation:
 The script must be run manually using the command line. First, open a shell using adb:
 
 > adb shell
+
+then
+
 > su
 
 The script has the following syntax:
@@ -32,9 +35,10 @@ The script has the following syntax:
 > dss {disable|enable} {user|system} <package-name>
 
 You must provide 2 or 3 arguments to the script:
-a) first argument is "disable" or "enable" (by default Analytics/Firebase/etc services are enabled)
-b) second argument is "user" or "system" (use "user" for any app wich you installed using an APK or installed from play store; use "system" for apps which come as part of the official Google image, e.g. contacts/dialer/messaging)
-c) the third argument is optional and - if present - contains the name of a specific package (e.g. com.banking.mybankapp)
+  
+(a) first argument is "disable" or "enable" (by default Analytics/Firebase/etc services are enabled)
+(b) second argument is "user" or "system" (use "user" for any app wich you installed using an APK or installed from play store; use "system" for apps which come as part of the official Google image, e.g. contacts/dialer/messaging)
+(c) the third argument is optional and - if present - contains the name of a specific package (e.g. com.banking.mybankapp)
 
 Examples:
 
@@ -47,10 +51,10 @@ Examples:
 
 The script will show you output of the services which get disabled, for example for the Feedly case:
 
-Component {com.devhd.feedly/com.facebook.internal.FacebookInitProvider} new state: disabled
-Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsJobService} new state: disabled
-Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsReceiver} new state: disabled
-Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsService} new state: disabled
+> Component {com.devhd.feedly/com.facebook.internal.FacebookInitProvider} new state: disabled
+> Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsJobService} new state: disabled
+> Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsReceiver} new state: disabled
+> Component {com.devhd.feedly/com.google.android.gms.analytics.AnalyticsService} new state: disabled
 
 Occasionally it can happen that after disabling Analytics/Firebase/etc, the app no longer works. 
 Then just "enable" again. Apps should - in principle - be resilient but some are not coded properly. 
