@@ -1,4 +1,8 @@
 name: Zip Release
+<<<<<<< HEAD
+=======
+  # You may pin to the exact commit or the version.
+>>>>>>> b64eac56c1e295551bb2a34674fcda908db29a7c
   uses: TheDoctor0/zip-release@0.6.2
   with:
     filename: dss.zip
