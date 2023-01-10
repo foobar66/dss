@@ -1,7 +1,13 @@
-name: Zip Release
-  uses: TheDoctor0/zip-release@0.6.2
-  with:
-    filename: dss.zip
-    path: .
-    directory: .
-    exclusions: dss.zip
+name: Create Zipped Release
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@main
+      with:
+        type: 'zip'
+        filename: 'dss.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
