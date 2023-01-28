@@ -10,7 +10,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'release.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig' makefile
+        exclusions: '*.git* /*node_modules/* .editorconfig makefile'
     - name: Upload Release
       uses: ncipollo/release-action@v1.12.0
       with:
