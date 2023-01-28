@@ -9,12 +9,12 @@ jobs:
       uses: thedoctor0/zip-release@0.7.1
       with:
         type: 'zip'
-        filename: 'release.zip'
+        filename: 'dss.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig makefile'
     - name: Upload zipped module as release
       uses: ncipollo/release-action@v1.12.0
       with:
         allowUpdates: true
         tag: v1.0.1
-        artifacts: "release.zip"
+        artifacts: "dss.zip"
         token: ${{ secrets.GITHUB_TOKEN }}       
