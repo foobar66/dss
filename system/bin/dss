@@ -78,23 +78,89 @@ dodis () {
     fi
 }
 
-if [ "$3" == "com.google.android.apps.messaging" ]; then
-    # disable MMS and RCS
-    dodis $CMD "com.google.android.apps.messaging/android.support.v7.mms.MmsService"
-    dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.rcsmigration.RcsMigrationService"
-    dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.rcsprovisioning.RcsProvisioningBroadcastReceiver"
-    dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.shared.rcs.messaging.MessagingEngineNotificationServer"
-    dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.shared.receiver.IncomingRcsEventReceiver"
-    dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.shared.receiver.RcsProvisioningEventReceiver"
-    dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.ui.appsettings.RcsSettingsActivity"
-    dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.ui.rcs.setup.auto.RcsPromoActivity"
-    dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.ui.rcs.setup.manual.RcsSetupActivity"
-fi
-
-if [ $# -eq 2 ]; then
-    # specific disables for various packages
-
-    if echo $PLIST | /system/bin/grep --quiet "com.dvtonder.chronus"; then
+# next applies to ALL packages which we selected
+for i in $PLIST; do
+    # next applies to ALL packages
+    dodis $CMD "$i/com.android.billingclient.api.ProxyBillingActivity"
+    dodis $CMD "$i/com.google.android.gms.ads.settings.AdsSettingsActivity"
+    dodis $CMD "$i/com.braintreepayments.api.internal.AnalyticsIntentService"
+    dodis $CMD "$i/com.crashlytics.android.CrashlyticsInitProvider"
+    dodis $CMD "$i/com.facebook.ads.internal.ipc.AdsMessengerService"
+    dodis $CMD "$i/com.facebook.ads.internal.ipc.AdsProcessPriorityService"
+    dodis $CMD "$i/com.facebook.internal.FacebookInitProvider"
+    dodis $CMD "$i/com.google.analytics.tracking.android.CampaignTrackingReceiver"
+    dodis $CMD "$i/com.google.analytics.tracking.android.CampaignTrackingService"
+    dodis $CMD "$i/com.google.android.gms.ads.AdActivity"
+    dodis $CMD "$i/com.google.android.gms.ads.AdRequestBrokerService"
+    dodis $CMD "$i/com.google.android.gms.ads.AdService"
+    dodis $CMD "$i/com.google.android.gms.ads.MobileAdsInitProvider"
+    dodis $CMD "$i/com.google.android.gms.ads.cache.CacheBrokerService"
+    dodis $CMD "$i/com.google.android.gms.ads.identifier.service.AdIdProviderService"
+    dodis $CMD "$i/com.google.android.gms.ads.identifier.service.AdvertisingIdNotificationService"
+    dodis $CMD "$i/com.google.android.gms.ads.identifier.service.AdvertisingIdService"
+    dodis $CMD "$i/com.google.android.gms.ads.jams.NegotiationService"
+    dodis $CMD "$i/com.google.android.gms.ads.measurement.GmpConversionTrackingBrokerService"
+    dodis $CMD "$i/com.google.android.gms.ads.social.GcmSchedulerWakeupService"
+    dodis $CMD "$i/com.google.android.gms.adsidentity.settings.AdsIdentityPersonalizationActivity"
+    dodis $CMD "$i/com.google.android.gms.adsidentity.settings.AdsIdentitySettingsActivity"
+    dodis $CMD "$i/com.google.android.gms.analytics.AnalyticsJobService"
+    dodis $CMD "$i/com.google.android.gms.analytics.AnalyticsReceiver"
+    dodis $CMD "$i/com.google.android.gms.analytics.AnalyticsService"
+    dodis $CMD "$i/com.google.android.gms.analytics.AnalyticsTaskService"
+    dodis $CMD "$i/com.google.android.gms.analytics.CampaignTrackingReceiver"
+    dodis $CMD "$i/com.google.android.gms.analytics.CampaignTrackingService"
+    dodis $CMD "$i/com.google.android.gms.analytics.internal.PlayLogReportingService"
+    dodis $CMD "$i/com.google.android.gms.analytics.service.AnalyticsService"
+    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementContentProvider"
+    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementJobService"
+    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementReceiver"
+    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementService"
+    dodis $CMD "$i/com.google.android.gms.measurement.PackageMeasurementService"
+    dodis $CMD "$i/com.google.android.gms.measurement.PackageMeasurementTaskService"
+    dodis $CMD "$i/com.google.android.gms.measurement.GmpConversionTrackingBrokerService"
+    dodis $CMD "$i/com.google.android.gms.measurement.PackageMeasurementReceiver"
+    dodis $CMD "$i/com.google.android.gms.tagmanager.InstallReferrerReceiver"
+    dodis $CMD "$i/com.google.android.gms.tagmanager.InstallReferrerService"
+    dodis $CMD "$i/com.google.firebase.auth.api.gms.service.FirebaseAuthService"
+    dodis $CMD "$i/com.google.firebase.iid.FirebaseInstanceIdService"
+    dodis $CMD "$i/com.google.firebase.messaging.FirebaseMessagingListenerService"
+    dodis $CMD "$i/com.google.firebase.messaging.FirebaseMessagingService"
+    dodis $CMD "$i/com.google.firebase.perf.provider.FirebasePerfProvider"
+    dodis $CMD "$i/com.google.firebase.provider.FirebasePerfProvider"
+    
+    if [ "$i" == "com.google.android.gms" ]; then
+        dodis $CMD "com.google.android.gms/com.google.android.gms.auth.account.authenticator.WorkAccountAuthenticatorInitializerReceiver"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.auth.account.authenticator.WorkAccountAuthenticatorService"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.auth.account.authenticator.WorkAccountAuthenticatorService"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.auth.account.data.WorkAccountStoreReceiver"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.auth.managed.ui.SetupWorkProfileActivity"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.auth.uiflows.addaccount.CantAddWorkAccountActivity"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.backup.component.MmsBackupSchedulerService"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.backup.mms.MmsBackupService"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.backup.mms.MmsRestoreService"
+        dodis $CMD "com.google.android.gms/com.google.android.location.ealert.ux.EAlertSafetyInfoActivity"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.location.settings.ArwEAlertPlatformSettingsActivity"
+        dodis $CMD "com.google.android.gms/com.google.android.location.settings.ArwEAlertSettingsActivity"
+        dodis $CMD "com.google.android.gms/com.google.android.location.settings.ArwEAlertSettingsV31Activity"
+        dodis $CMD "com.google.android.gms/com.google.android.location.settings.EAlertGoogleSettingDebugActivity"
+        dodis $CMD "com.google.android.gms/com.google.android.gms.location.settings.EAlertPlatformSettingsActivity"
+        dodis $CMD "com.google.android.gms/com.google.android.location.settings.EAlertSettingsActivity"
+        dodis $CMD "com.google.android.gms/com.google.android.location.settings.EAlertSettingsV31Activity"
+    fi
+    if [ "$i" == "com.google.android.apps.messaging" ]; then
+        # disable MMS and RCS
+        dodis $CMD "com.google.android.apps.messaging/android.support.v7.mms.MmsService"
+        dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.rcsmigration.RcsMigrationService"
+        dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.rcsprovisioning.RcsProvisioningBroadcastReceiver"
+        dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.shared.rcs.messaging.MessagingEngineNotificationServer"
+        dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.shared.receiver.IncomingRcsEventReceiver"
+        dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.shared.receiver.RcsProvisioningEventReceiver"
+        dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.ui.appsettings.RcsSettingsActivity"
+        dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.ui.rcs.setup.auto.RcsPromoActivity"
+        dodis $CMD "com.google.android.apps.messaging/com.google.android.apps.messaging.ui.rcs.setup.manual.RcsSetupActivity"
+    fi
+    if [ "$i" == "com.dvtonder.chronus" ]; then
         dodis $CMD "com.dvtonder.chronus/com.dvtonder.chronus.daydream.ChronusDaydreamService"
         dodis $CMD "com.dvtonder.chronus/com.dvtonder.chronus.daydream.ChronusDaydreamServicePro"
         dodis $CMD "com.dvtonder.chronus/com.dvtonder.chronus.news.NewsFeedViewsService"
@@ -102,7 +168,7 @@ if [ $# -eq 2 ]; then
         dodis $CMD "com.dvtonder.chronus/com.dvtonder.chronus.stocks.StocksViewsService"
         dodis $CMD "com.dvtonder.chronus/com.dvtonder.chronus.extensions.gmail.GmailExtension"
     fi
-    if echo $PLIST | /system/bin/grep --quiet "jp.pioneer.avsoft.android.icontrolav2014"; then
+    if [ "$i" == "jp.pioneer.avsoft.android.icontrolav2014" ]; then
         dodis $CMD "jp.pioneer.avsoft.android.icontrolav2014/com.google.android.gms.ads.social.GcmSchedulerWakeupService"
         dodis $CMD "jp.pioneer.avsoft.android.icontrolav2014/com.google.android.gms.ads.identifier.service.AdvertisingIdNotificationService"
         dodis $CMD "jp.pioneer.avsoft.android.icontrolav2014/com.google.android.gms.ads.measurement.GmpConversionTrackingBrokerService"
@@ -113,59 +179,131 @@ if [ $# -eq 2 ]; then
         dodis $CMD "jp.pioneer.avsoft.android.icontrolav2014/com.google.android.gms.adsidentity.settings.AdsIdentityPersonalizationActivity"
         dodis $CMD "jp.pioneer.avsoft.android.icontrolav2014/com.google.android.gms.analytics.internal.PlayLogReportingService"
     fi
-    if echo $PLIST | /system/bin/grep --quiet "com.teslacoilsw.launcher"; then
+    if [ "$i" == "com.teslacoilsw.launcher" ]; then
         dodis $CMD "com.teslacoilsw.launcher/com.teslacoilsw.launcher.NovaAccessibilityService"
         dodis $CMD "com.teslacoilsw.launcher/com.android.launcher3.MemoryDumpActivity"
     fi
-fi
+    if [ "$i" == "com.garmin.android.apps.connectmobile" ]; then
+        dodis $CMD "com.garmin.android.apps.connectmobile/com.alipay.sdk.app.AlipayResultActivity"
+        dodis $CMD "com.garmin.android.apps.connectmobile/com.alipay.sdk.app.APayEntranceActivity"
+        dodis $CMD "com.garmin.android.apps.connectmobile/com.alipay.sdk.app.H5AuthActivity"
+        dodis $CMD "com.garmin.android.apps.connectmobile/com.alipay.sdk.app.H5OpenAuthActivity"
+        dodis $CMD "com.garmin.android.apps.connectmobile/com.alipay.sdk.app.H5PayActivity"
+        dodis $CMD "com.garmin.android.apps.connectmobile/com.alipay.sdk.app.PayResultActivity"
+    fi
+    if [ "$i" == "com.huami.watch.hmwatchmanager" ]; then
+        dodis $CMD "com.huami.watch.hmwatchmanager/.wxapi.WXEntryActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/.wxapi.WXPayEntryActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/org.acra.sender.JobSenderService"
+        dodis $CMD "com.huami.watch.hmwatchmanager/org.acra.sender.LegacySenderService"
+        dodis $CMD "com.huami.watch.hmwatchmanager/org.acra.attachment.AcraContentProvider"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.alipay.sdk.app.APayEntranceActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.alipay.sdk.app.AlipayResultActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.alipay.sdk.app.H5AuthActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.alipay.sdk.app.H5OpenAuthActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.alipay.sdk.app.H5PayActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.alipay.sdk.app.PayResultActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.alipay.sdk.auth.AuthActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.amap.api.location.APSService"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.sina.weibo.sdk.component.WeiboSdkBrowser"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.sina.weibo.sdk.content.FileProvider"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.sina.weibo.sdk.share.ShareTransActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.sina.weibo.sdk.web.WebActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.tencent.connect.common.AssistActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.xiaomi.mipush.sdk.MessageHandleService"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.xiaomi.mipush.sdk.NotificationClickedActivity"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.xiaomi.mipush.sdk.PushMessageHandler"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.xiaomi.push.service.XMJobService"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.xiaomi.push.service.XMPushService"
+        dodis $CMD "com.huami.watch.hmwatchmanager/com.xiaomi.push.service.receivers.PingReceiver"
+    fi
+    if [ "$i" == "com.twipemobile.dsmobile" ]; then
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.actions.RateAppActivity"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.actions.WalletLoadingActivity"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.google.PlayServicesErrorActivity"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.push.NotificationProxyActivity"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.util.HelperActivity"
+        dodis $CMD "com.twipemobile.dsmobile/io.didomi.sdk.notice.ctv.TVNoticeDialogActivity"
+        dodis $CMD "com.twipemobile.dsmobile/io.didomi.sdk.vendors.ctv.TVPreferencesDialogActivity"
+        dodis $CMD "com.twipemobile.dsmobile/org.prebid.mobile.rendering.views.browser.AdBrowserActivity"
+        dodis $CMD "com.twipemobile.dsmobile/com.genius.sdk.MobilePlugin"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.job.AirshipService"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.job.AndroidJobService"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.push.fcm.AirshipFirebaseMessagingService"
+        dodis $CMD "com.twipemobile.dsmobile/org.acra.sender.JobSenderService"
+        dodis $CMD "com.twipemobile.dsmobile/org.acra.sender.LegacySenderService"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.locale.LocaleChangeReceiver"
+        dodis $CMD "com.twipemobile.dsmobile/com.urbanairship.push.NotificationProxyReceiver"
+    fi
+    if [ "$i" == "com.devhd.feedly" ]; then
+        dodis $CMD "com.devhd.feedly/org.acra.CrashReportDialog"
+        dodis $CMD "com.devhd.feedly/org.acra.dialog.CrashReportDialog"
+        dodis $CMD "com.devhd.feedly/org.acra.sender.SenderService"
+        # re-enable, otherwise feedly will crash
+        pm enable "com.devhd.feedly/com.facebook.internal.FacebookInitProvider" > /dev/null
 
-# next applies to ALL packages which we selected
-for i in $PLIST; do
-    dodis $CMD "$i/com.braintreepayments.api.internal.AnalyticsIntentService"
-    dodis $CMD "$i/com.crashlytics.android.CrashlyticsInitProvider"
-    dodis $CMD "$i/com.facebook.ads.internal.ipc.AdsMessengerService"
-    dodis $CMD "$i/com.facebook.ads.internal.ipc.AdsProcessPriorityService"
-    dodis $CMD "$i/com.facebook.internal.FacebookInitProvider"
-    dodis $CMD "$i/com.google.analytics.tracking.android.CampaignTrackingReceiver"
-    dodis $CMD "$i/com.google.analytics.tracking.android.CampaignTrackingService"
-    dodis $CMD "$i/com.google.android.gms.ads.AdActivity"
-    dodis $CMD "$i/com.google.android.gms.ads.AdService"
-    dodis $CMD "$i/com.google.android.gms.ads.MobileAdsInitProvider"
-    dodis $CMD "$i/com.google.android.gms.ads.jams.NegotiationService"
-    dodis $CMD "$i/com.google.android.gms.ads.social.GcmSchedulerWakeupService"
-    dodis $CMD "$i/com.google.android.gms.ads.identifier.service.AdvertisingIdNotificationService"
-    dodis $CMD "$i/com.google.android.gms.ads.measurement.GmpConversionTrackingBrokerService"
-    dodis $CMD "$i/com.google.android.gms.ads.AdRequestBrokerService"
-    dodis $CMD "$i/com.google.android.gms.ads.cache.CacheBrokerService"
-    dodis $CMD "$i/com.google.android.gms.ads.identifier.service.AdIdProviderService"
-    dodis $CMD "$i/com.google.android.gms.ads.identifier.service.AdvertisingIdService"
-    dodis $CMD "$i/com.google.android.gms.ads.settings.AdsSettingsActivity"
-    dodis $CMD "$i/com.google.android.gms.adsidentity.settings.AdsIdentitySettingsActivity"
-    dodis $CMD "$i/com.google.android.gms.adsidentity.settings.AdsIdentityPersonalizationActivity"
-    dodis $CMD "$i/com.google.android.gms.analytics.AnalyticsJobService"
-    dodis $CMD "$i/com.google.android.gms.analytics.AnalyticsReceiver"
-    dodis $CMD "$i/com.google.android.gms.analytics.AnalyticsService"
-    dodis $CMD "$i/com.google.android.gms.analytics.AnalyticsTaskService"
-    dodis $CMD "$i/com.google.android.gms.analytics.CampaignTrackingReceiver"
-    dodis $CMD "$i/com.google.android.gms.analytics.CampaignTrackingService"
-    dodis $CMD "$i/com.google.android.gms.analytics.service.AnalyticsService"
-    dodis $CMD "$i/com.google.android.gms.analytics.internal.PlayLogReportingService"
-    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementContentProvider"
-    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
-    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementJobService"
-    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementReceiver"
-    dodis $CMD "$i/com.google.android.gms.measurement.AppMeasurementService"
-    dodis $CMD "$i/com.google.android.gms.measurement.PackageMeasurementReceiver"
-    dodis $CMD "$i/com.google.firebase.auth.api.gms.service.FirebaseAuthService"
-    dodis $CMD "$i/com.google.firebase.iid.FirebaseInstanceIdService"
-    dodis $CMD "$i/com.google.firebase.perf.provider.FirebasePerfProvider"
-    dodis $CMD "$i/com.google.firebase.provider.FirebasePerfProvider"
-    dodis $CMD "$i/com.google.firebase.messaging.FirebaseMessagingService"
-    dodis $CMD "$i/com.google.firebase.messaging.FirebaseMessagingListenerService"
+    fi
+    if [ "$i" == "com.groundspeak.geocaching.intro" ]; then
+        dodis $CMD "com.groundspeak.geocaching.intro/com.apptentive.android.sdk.ApptentiveViewActivity"
+    fi
+    if [ "$i" == "com.linkedin.android" ]; then
+        dodis $CMD "com.linkedin.android/com.anagog.jedai.extension.DummyForContext"
+        dodis $CMD "com.linkedin.android/com.anagog.jedai.extension.ActivityFromBackground"
+        dodis $CMD "com.linkedin.android/com.anagog.jedai.extension.AndroidIntents"
+        dodis $CMD "com.linkedin.android/com.anagog.jedai.extension.BeaconMonitorReceiver"
+        dodis $CMD "com.linkedin.android/com.facebook.CustomTabActivity"
+    fi
+    if [ "$i" == "com.teslacoilsw.launcher" ]; then
+        dodis $CMD "com.teslacoilsw.launcher/org.matomo.sdk.extra.InstallReferrerReceiver"
+    fi
+    if [ "$i" == "org.observation.obsidentify" ]; then
+        dodis $CMD "org.observation.obsidentify/io.invertase.firebase.crashlytics.ReactNativeFirebaseCrashlyticsInitProvider"
+    fi
+    if [ "$i" == "com.paypal.android.p2pmobile" ]; then
+        dodis $CMD "com.paypal.android.p2pmobile/com.qualtrics.digital.QualtricsNotificationManager"
+        dodis $CMD "com.paypal.android.p2pmobile/com.qualtrics.digital.QualtricsPopOverActivity"
+        dodis $CMD "com.paypal.android.p2pmobile/com.qualtrics.digital.QualtricsSurveyActivity"
+    fi
+    if [ "$i" == "ch.protonvpn.android" ]; then
+        dodis $CMD "ch.protonvpn.android/io.sentry.android.core.SentryPerformanceProvider"
+    fi
+    if [ "$i" == "com.sporteasy.android" ]; then
+        dodis $CMD "com.sporteasy.android/zendesk.messaging.MessagingActivity"
+        dodis $CMD "com.sporteasy.android/zendesk.support.guide.HelpCenterActivity"
+        dodis $CMD "com.sporteasy.android/zendesk.support.guide.ViewArticleActivity"
+        dodis $CMD "com.sporteasy.android/zendesk.support.request.RequestActivity"
+        dodis $CMD "com.sporteasy.android/zendesk.support.requestlist.RequestListActivity"
+        dodis $CMD "com.sporteasy.android/zendesk.support.DeepLinkingBroadcastReceiver"
+        dodis $CMD "com.sporteasy.android/zendesk.belvedere.BelvedereFileProvider"
+    fi
+    if [ "$i" == "com.strava" ]; then
+        dodis $CMD "com.strava/.zendesk.ZendeskArticleLaunchingActivity"
+        dodis $CMD "com.strava/zendesk.messaging.MessagingActivity"
+        dodis $CMD "com.strava/zendesk.support.guide.HelpCenterActivity"
+        dodis $CMD "com.strava/zendesk.support.guide.ViewArticleActivity"
+        dodis $CMD "com.strava/zendesk.support.request.RequestActivity"
+        dodis $CMD "com.strava/zendesk.support.requestlist.RequestListActivity"
+        dodis $CMD "com.strava/zendesk.support.DeepLinkingBroadcastReceiver"
+        dodis $CMD "com.strava/zendesk.belvedere.BelvedereFileProvider"
+        dodis $CMD "com.strava/zendesk.support.guide.GuideSdkStartupProvider"
+        dodis $CMD "com.strava/zendesk.support.SupportSdkStartupProvider"
+        dodis $CMD "com.strava/com.mapbox.android.telemetry.errors.ErrorReporterJobIntentService"
+        dodis $CMD "com.strava/com.mapbox.android.telemetry.errors.MapboxTelemetryService"
+        dodis $CMD "com.strava/com.mapbox.android.telemetry.provider.MapnoxTelemetryInitProvider"
+        # re-enable, otherwise strava will crash
+        pm enable "com.strava/com.facebook.internal.FacebookInitProvider" > /dev/null
+    fi
+    if [ "$i" == "mobi.lockdown.weather" ]; then
+        dodis $CMD "mobi.lockdown.weather/com.facebook.ads.AudienceNetworkActivity"
+        dodis $CMD "mobi.lockdown.weather/com.facebook.ads.AudienceNetworkContentProvider"
+    fi
+    if [ "$i" == "com.twitter.android" ]; then
+        dodis $CMD "com.twitter.android/.analytics.TweetAnalyticsWebViewActivity"
+        dodis $CMD "com.twitter.android/.dogfood.bugreporter.impl.BugReporterActivity"
+        # # dodis $CMD "com.twitter.android/com.openback.service.OpenBackService"
+        # # dodis $CMD "com.twitter.android/com.openback.receiver.OpenBackReceiver"
+        dodis $CMD "com.twitter.android/com.twitter.analytics.tracking.InstallationReferrer\$OemIntentReceiver"
+    fi
 done
-
-# reenable services (otherwise apps will not work)
-pm enable "com.devhd.feedly/com.facebook.internal.FacebookInitProvider" > /dev/null
-pm enable "com.strava/com.facebook.internal.FacebookInitProvider" > /dev/null
 
 echo "*** $DCNT disabled, $ECNT enabled, $ERR errors (probably services not present)"
