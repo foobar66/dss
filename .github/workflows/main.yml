@@ -1,17 +1,17 @@
-name: Create Archive
+name: Create zipped module
 on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Archive Release
+    - name: Create zipped module
       uses: thedoctor0/zip-release@0.7.1
       with:
         type: 'zip'
         filename: 'release.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig makefile'
-    - name: Upload Release
+    - name: Upload zipped module as release
       uses: ncipollo/release-action@v1.12.0
       with:
         allowUpdates: true
