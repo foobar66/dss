@@ -4,6 +4,8 @@ display_usage() {
 	echo "usage: dss {enable|disable} {user|system} [package] ($1)"
 } 
 
+# give a message the very first time the command is run
+# keep a dot file on /data to remember this
 if [ ! -e /data/.dss.hasran ]; then
     touch /data/.dss.hasran
     echo "You are running this script for the first time."
