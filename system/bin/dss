@@ -89,7 +89,7 @@ for i in $PLIST; do
     dodis $CMD "$i/com.crashlytics.android.CrashlyticsInitProvider"
     dodis $CMD "$i/com.facebook.ads.internal.ipc.AdsMessengerService"
     dodis $CMD "$i/com.facebook.ads.internal.ipc.AdsProcessPriorityService"
-    dodis $CMD "$i/com.facebook.internal.FacebookInitProvider"
+    # # dodis $CMD "$i/com.facebook.internal.FacebookInitProvider"
     dodis $CMD "$i/com.google.analytics.tracking.android.CampaignTrackingReceiver"
     dodis $CMD "$i/com.google.analytics.tracking.android.CampaignTrackingService"
     dodis $CMD "$i/com.google.android.gms.ads.AdActivity"
